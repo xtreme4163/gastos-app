@@ -1,5 +1,6 @@
 package io.gastos.gastos_app.model;
 
+import io.gastos.gastos_app.model.user.UserEntry;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -23,6 +24,12 @@ public class Gasto {
     @NotNull(message = "El importe es obligatorio")
     private BigDecimal importe;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_usuario",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_gasto_usuario"))
+    private UserEntry usuario;
+
     public Gasto() {}
 
     public Long getId() {
@@ -41,6 +48,14 @@ public class Gasto {
     }
     public void setImporte(BigDecimal importe) {
         this.importe = importe;
+    }
+
+    public UserEntry getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UserEntry usuario) {
+        this.usuario = usuario;
     }
 
     @Override

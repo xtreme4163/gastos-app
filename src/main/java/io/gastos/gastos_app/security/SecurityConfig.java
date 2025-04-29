@@ -12,6 +12,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    private final LoginSuccessHandler successHandler;
+
+    public SecurityConfig(LoginSuccessHandler successHandler) {
+        this.successHandler = successHandler;
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -26,6 +32,7 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/gastosList", true)
                         .failureUrl("/login?error=true")
                         .permitAll()
+                        .successHandler(successHandler)
                 )
                 .logout(out -> out
                         .logoutUrl("/logout")           // botón salir
