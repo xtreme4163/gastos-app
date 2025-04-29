@@ -1,0 +1,26 @@
+name: Prefix issue title with number
+
+on:
+  issues:
+    types: [ opened ]        # se dispara solo al abrir un issue
+
+permissions:
+  issues: write            # necesario para poder editar el issue
+
+jobs:
+  add_prefix:
+    runs-on: ubuntu-latest
+    steps:
+      - name:
+          Add "Issue<N>: " prefix
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { number, title } = context.payload.issue
+            const prefix = `Issue${number}: `
+            if (!title.startsWith(prefix)) {
+              await github.rest.issues.update({
+                ...context.issue,
+                title: prefix + title
+              })
+            }
