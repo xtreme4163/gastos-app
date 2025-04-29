@@ -1,0 +1,23 @@
+[33mcommit 8f9911975a84ed59a04914fc3896d1fb07e9f250[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mstable[m[33m, [m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m
+Author: xtreme4163 <xtremeplays85@gmail.com>
+Date:   Tue Apr 29 18:15:09 2025 +0200
+
+    Automatizar creacion de issues con su numero.
+
+[33mcommit 20421cb8daafef660433ce8279905fed78ffc448[m
+Author: xtreme4163 <xtremeplays85@gmail.com>
+Date:   Tue Apr 29 17:10:46 2025 +0200
+
+    limpieza
+
+[33mcommit 7cfa78d625804f167d633c72f460af144b042375[m[33m ([m[1;31morigin/stable[m[33m)[m
+Author: xtreme4163 <xtremeplays85@gmail.com>
+Date:   Tue Apr 29 16:57:20 2025 +0200
+
+    mover database scripts
+
+[33mcommit 3c7ecb5e2a58412157709c2e454c278af70f7e15[m
+Author: xtreme4163 <xtremeplays85@gmail.com>
+Date:   Tue Apr 29 16:54:44 2025 +0200
+
+    Initial commit
