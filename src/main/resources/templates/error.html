@@ -1,0 +1,26 @@
+<!-- templates/error/500.html -->
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>¡Vaya! – Error inesperado</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="d-flex flex-column vh-100">
+<main class="container my-auto text-center">
+  <h1 class="display-4">😓  Error interno (500)</h1>
+  <p class="lead">Lo sentimos, ha ocurrido algo inesperado.</p>
+
+  <!-- Botón para volver a la pantalla principal -->
+  <form th:action="@{/logout}" method="post" class="d-inline">
+    <!-- token CSRF: Spring lo añade automáticamente al modelo -->
+    <input type="hidden"
+           th:name="${_csrf.parameterName}"
+           th:value="${_csrf.token}" />
+    <button type="submit" class="btn btn-primary mt-3">
+      Volver al inicio
+    </button>
+  </form>
+</main>
+</body>
+</html>

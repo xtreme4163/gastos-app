@@ -1,0 +1,5 @@
+/* Fondo para la página de login */
+body.login-page {
+  background: url("/img/login-bg.jpg") no-repeat center center fixed;
+  background-size: cover;
+}

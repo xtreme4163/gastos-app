@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout :: layout}">
+
+<head>
+  <!-- sustituimos sólo el título -->
+  <title layout:fragment="title">Inicio – GastosApp</title>
+</head>
+
+<body>
+<section layout:fragment="content">
+  <h1>Registrar un gasto</h1>
+  <form   th:action="${editMode} ? @{/gastos/actualizar} : @{/gastos}" th:object="${gasto}" method="post">
+    <input type="hidden" th:value="${gasto.id}"  class="form-control"/>
+
+    <div class="mb-3">
+      <label for="tipoGasto" class="form-label">Tipo de gasto</label>
+      <input type="text"
+             id="tipoGasto"
+             th:field="*{tipoGasto}"
+             class="form-control"
+             th:classappend="${#fields.hasErrors('tipoGasto')}? ' is-invalid'"/>
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('tipoGasto')}"
+           th:text="'Tipo gasto no aceptado.'">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="importe" class="form-label">Importe</label>
+      <input type="text"
+             id="importe"
+             th:field="*{importe}"
+             class="form-control"
+             th:classappend="${#fields.hasErrors('importe')}? ' is-invalid'"/>
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('importe')}"
+           th:text="'Importe inválido'" >
+      </div>
+    </div>
+
+    <button type="submit"
+            class="btn"
+            th:classappend="${editMode} ? ' btn-success' : ' btn-primary'"
+            th:text="${editMode} ? 'Actualizar' : 'Guardar'">
+    </button>
+  </form>
+
+  <hr/>
+
+  <h2>Lista de gastos</h2>
+  <table id="tablaGastos" class="table table-striped">
+    <thead>
+    <tr>
+      <th>Tipo de gasto</th>
+      <th>Importe</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="g : ${gastos}">
+      <!-- COLUMNA DE ACCIONES -->
+      <td>
+        <!-- EDITAR: invoca GET /gastos/editar?id=… -->
+        <form th:action="@{/gastos/editar}" method="post"
+              style="display:inline">
+          <input type="hidden" name="id" th:value="${g.id}" />
+          <button type="submit" class="btn btn-sm btn-outline-primary" title="Editar">
+            <i class="fas fa-pencil-alt"></i>
+          </button>
+        </form>
+        <!-- BORRAR: invoca POST /gastos/borrar con el parámetro id -->
+        <form th:action="@{/gastos/borrar}" method="post"
+              style="display:inline"
+              onsubmit="return confirm('¿Seguro que quieres borrar este gasto?');">
+          <input type="hidden" name="id" th:value="${g.id}" />
+          <button type="submit" class="btn btn-sm btn-outline-danger" title="Borrar">
+            <i class="fas fa-trash"></i>
+          </button>
+        </form>
+      </td>
+      <td th:text="${g.tipoGasto}"></td>
+      <td th:insert="~{fragments/number :: fmt(${g.importe})}"></td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+</body>
+</html>
