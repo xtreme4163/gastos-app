@@ -1,6 +1,5 @@
 package io.gastos.gastos_app.service;
 
-import io.gastos.gastos_app.model.user.UserEntry;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -26,7 +25,6 @@ public class GastosCrudFacade {
             em.persist(entity);
             return entity;
         } catch (ConstraintViolationException ex) {
-            // maneja aquí las violaciones de validación
             throw ex;
         }
     }

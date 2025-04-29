@@ -3,7 +3,6 @@ package io.gastos.gastos_app.web.user;
 import io.gastos.gastos_app.model.user.UserEntry;
 import io.gastos.gastos_app.service.user.UserFacade;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,7 +39,6 @@ public class UserController {
     public String registrar(@Valid @ModelAttribute("userForm") UserEntry form,
                             BindingResult br,
                             RedirectAttributes attrs) {
-
         if (br.hasErrors()) {
             return "usuario-form";
         }

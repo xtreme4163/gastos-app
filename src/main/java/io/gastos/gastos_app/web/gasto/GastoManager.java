@@ -1,4 +1,3 @@
-// src/main/java/io/gastos/gastos_app/manager/GastoManager.java
 package io.gastos.gastos_app.web.gasto;
 
 import io.gastos.gastos_app.model.Gasto;

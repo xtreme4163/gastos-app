@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableMethodSecurity           // habilita @PreAuthorize
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean

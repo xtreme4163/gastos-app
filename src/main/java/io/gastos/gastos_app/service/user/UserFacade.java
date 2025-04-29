@@ -3,16 +3,13 @@ package io.gastos.gastos_app.service.user;
 import io.gastos.gastos_app.model.user.UserEntry;
 import io.gastos.gastos_app.model.user.UserEntry_;
 import io.gastos.gastos_app.service.GastosCrudFacade;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -21,7 +18,7 @@ import java.util.Optional;
 @Repository
 public class UserFacade {
 
-    private GastosCrudFacade gastosCrudFacade;
+    private final GastosCrudFacade gastosCrudFacade;
 
     public UserFacade(GastosCrudFacade f){
         gastosCrudFacade=f;
@@ -58,7 +55,7 @@ public class UserFacade {
         try {
             return Optional.ofNullable(query.getSingleResult());
         } catch (NoResultException ex) {
-            return null;
+            return Optional.empty();
         }
     }
 
