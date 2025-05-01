@@ -7,7 +7,7 @@ import io.gastos.gastos_app.web.user.UserEntryManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -23,7 +23,9 @@ public class GastoManager {
     }
 
     public Gasto guardar(Gasto gasto) {
-        LocalDateTime fecha = LocalDateTime.now(); // Esto para guardar la fecha en la que se introdujo el gasto
+        if (gasto.getFechaGasto() == null) {
+            gasto.setFechaGasto(LocalDate.now());
+        }
         gasto.setUsuario(userManager.getUsuario());
         return gastoFacade.create(gasto);
     }
@@ -56,6 +58,7 @@ public class GastoManager {
 
         original.setConcepto(nuevo.getConcepto());
         original.setImporte(nuevo.getImporte());
+        original.setFechaGasto(nuevo.getFechaGasto());
         return original;
     }
 

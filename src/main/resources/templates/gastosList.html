@@ -31,7 +31,7 @@
     </div>
 
     <div class="mb-3">
-      <label for="importe" class="form-label">Importe</label>
+      <label for="importe" class="form-label" th:text="#{importe}"></label>
       <input type="text"
              id="importe"
              th:field="*{importe}"
@@ -40,6 +40,15 @@
       <div class="invalid-feedback" th:if="${#fields.hasErrors('importe')}"
            th:text="#{importeInvalido}">
       </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="fecha" class="form-label" th:text="#{fecha}"></label>
+      <input type="date"
+             id="fecha"
+             th:field="*{fechaGasto}"
+             class="form-control"
+             required/>
     </div>
 
     <button type="submit"
@@ -58,6 +67,7 @@
       <th/>
       <th th:text="#{concepto}"/>
       <th th:text="#{importe}"/>
+      <th th:text="#{fecha}"/>
     </tr>
     </thead>
     <tbody>
@@ -84,6 +94,7 @@
       </td>
       <td th:text="${g.concepto}"></td>
       <td th:insert="~{fragments/number :: fmt(${g.importe})}"></td>
+      <td th:insert="~{fragments/fechas :: fmt(${g.fechaGasto})}"></td>
     </tr>
     </tbody>
   </table>

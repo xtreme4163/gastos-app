@@ -4,8 +4,10 @@ import io.gastos.gastos_app.model.user.UserEntry;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -31,6 +33,12 @@ public class Gasto {
             foreignKey = @ForeignKey(name = "fk_gasto_usuario"))
     private UserEntry usuario;
 
+
+    @Column(name = "fecha")
+    @NotNull
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate fechaGasto;
+
     public Gasto() {}
 
     public Long getId() {
@@ -50,6 +58,14 @@ public class Gasto {
     }
     public void setImporte(BigDecimal importe) {
         this.importe = importe;
+    }
+
+    public LocalDate getFechaGasto() {
+        return fechaGasto;
+    }
+
+    public void setFechaGasto(LocalDate fechaGasto) {
+        this.fechaGasto = fechaGasto;
     }
 
     public UserEntry getUsuario() {

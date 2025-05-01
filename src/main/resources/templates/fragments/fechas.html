@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:fragment="layout">
+
+<div th:fragment="fmt(fecha)">
+    <span th:text="${#temporals.format(fecha,'dd/MM/yyyy')}">31/12/2024</span>
+</div>

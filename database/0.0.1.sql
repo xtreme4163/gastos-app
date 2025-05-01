@@ -14,6 +14,8 @@ ADD CONSTRAINT fk_gasto_usuario
 CREATE INDEX idx_gasto_id_usuario
     ON gasto (id_usuario);
 
+ALTER TABLE gasto ADD COLUMN fecha date NOT NULL DEFAULT CURRENT_DATE;
+
 --Tabla usuarios
 CREATE TABLE IF NOT EXISTS usuario (
   id        BIGSERIAL PRIMARY KEY,
