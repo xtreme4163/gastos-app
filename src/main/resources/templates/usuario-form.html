@@ -4,37 +4,39 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-  <title layout:fragment="title">Alta de usuario – GastosApp</title>
+  <title layout:fragment="title" th:text="#{altaUsuario}"></title>
 </head>
 
 <body>
 <section layout:fragment="content">
-  <h2>Nuevo usuario</h2>
+  <h2 th:text="#{nuevoUsuario}"></h2>
 
   <form th:action="@{/usuarios}" th:object="${userForm}" method="post" class="w-50">
 
     <div class="mb-3">
-      <label class="form-label">Usuario</label>
-      <input th:field="*{username}" class="form-control" required />
+      <label class="form-label" th:text="#{usuario}"></label>
+      <input th:field="*{username}" class="form-control" required/>
       <div class="text-danger" th:errors="*{username}"></div>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Contraseña</label>
+      <label class="form-label" th:text="#{pass}"></label>
       <input type="password" th:field="*{pass}" class="form-control" required />
       <div class="text-danger" th:errors="*{pass}"></div>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Tipo de usuario</label>
+      <label class="form-label" th:text="#{tipoUsuario}"></label>
       <select th:field="*{tipoUsuario}" class="form-select">
         <option th:each="t : ${T(io.gastos.gastos_app.model.user.TipoUsuario).values()}"
                 th:value="${t}" th:text="${t}">OWNER</option>
       </select>
     </div>
 
-    <button class="btn btn-primary">Guardar</button>
-    <a th:href="@{/gastosList}" class="btn btn-secondary ms-2">Cancelar</a>
+    <button type="submit" class="btn btn-primary" th:text="#{guardar}"></button>
+    <a th:href="@{/gastosList}"
+       class="btn btn-secondary ms-2"
+       th:text="#{cancelar}"></a>
   </form>
 </section>
 </body>

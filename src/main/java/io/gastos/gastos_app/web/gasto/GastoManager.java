@@ -51,7 +51,7 @@ public class GastoManager {
 
     public Gasto actualizarGasto(Gasto original, Gasto nuevo){
         if(original == null || nuevo == null){
-            throw new NoPuedoActualizarGastoException("❌ El gasto seleccionado no es válido.");
+            throw new NoPuedoActualizarGastoException("gastoSelecNoValido");
         }
 
         original.setTipoGasto(nuevo.getTipoGasto());

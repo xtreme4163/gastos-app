@@ -1,6 +1,7 @@
 package io.gastos.gastos_app.web.gasto;
 
 import io.gastos.gastos_app.model.Gasto;
+import io.gastos.gastos_app.web.MessageUtil;
 import io.gastos.gastos_app.web.user.UserEntryManager;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -16,12 +17,13 @@ public class GastoController{
     private final GastoManager gastoManager;
     private Gasto gastoToEdit;
     private UserEntryManager userEntryManager;
+    private final MessageUtil msg;
 
-    public GastoController(GastoManager manager, UserEntryManager userEntryManager) {
+    public GastoController(GastoManager manager, UserEntryManager userEntryManager, MessageUtil msg) {
         this.gastoManager = manager;
         this.gastoToEdit = null;
         this.userEntryManager = userEntryManager;
-
+        this.msg = msg;
     }
 
 
@@ -49,9 +51,9 @@ public class GastoController{
 
         try{
             gastoManager.guardar(gasto);
-            attrs.addFlashAttribute("success", "✅ ¡Gasto guardado correctamente!");
+            attrs.addFlashAttribute("success", msg.getMessage("gastoGuardado"));
         } catch (Exception e) {
-            attrs.addFlashAttribute("error", "❌ Error al guardar el gasto");
+            attrs.addFlashAttribute("error", msg.getMessage("gastoNoGuardado"));
         }
         return "redirect:/gastosList";                               // vuelve a GET /
     }
@@ -67,7 +69,7 @@ public class GastoController{
                          Model model,
                          RedirectAttributes attrs) {
         gastoManager.deleteGasto(idGasto);
-        attrs.addFlashAttribute("success", "✅ Gasto eliminado correctamente");
+        attrs.addFlashAttribute("success", msg.getMessage("gastoEliminado"));
         fillAtributos(model);
         return "redirect:/gastosList";
 
@@ -80,7 +82,7 @@ public class GastoController{
         Gasto attached = gastoManager.findGastoById(idGasto);
 
         if (attached == null) {
-            attrs.addFlashAttribute("error", "No existe el gasto, id: " + idGasto);
+            attrs.addFlashAttribute("error", msg.getMessage("noExisteGasto", idGasto));
             fillAtributos(model);
             return "redirect:/gastosList";
         }
@@ -103,9 +105,9 @@ public class GastoController{
         try{
             Gasto gastoActualizado = gastoManager.actualizarGasto(this.gastoToEdit, gasto);
             gastoManager.editGasto(gastoActualizado);
-            attrs.addFlashAttribute("success","✅ Gasto actualizado");
+            attrs.addFlashAttribute("success", msg.getMessage("gastoActualizado"));
         }catch (NoPuedoActualizarGastoException ex){
-            attrs.addFlashAttribute("error",ex.getMessage());
+            attrs.addFlashAttribute("error", msg.getMessage(ex.getMessage()));
         }
         return inicio(model);
     }
@@ -113,11 +115,11 @@ public class GastoController{
     private boolean validate(Gasto gasto,  RedirectAttributes attrs,  BindingResult br){
         if(gasto.getTipoGasto() == null ||
                 (gasto.getTipoGasto() != null && gasto.getTipoGasto().isBlank())){
-            attrs.addFlashAttribute("error", "❌ Error al guardar el gasto, tipo de gasto no puede estar vacío.");
+            attrs.addFlashAttribute("error", msg.getMessage("errorGuardarGasto"));
             return false;
         }
         if(br.hasErrors()){
-            attrs.addFlashAttribute("error", "❌ Hay errores en el formulario");
+            attrs.addFlashAttribute("error", msg.getMessage("erroresForm"));
             return false;
         }
 
