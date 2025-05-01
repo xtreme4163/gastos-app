@@ -30,13 +30,13 @@ public class GastoController{
     @GetMapping("/gastosList")
     public String inicio(Model model) {
         model.addAttribute("editMode", false);
-        fillAtributos(model);
+        fillAtributos(model, null);
         this.gastoToEdit = null;
         return "gastosList";
     }
 
-    private void fillAtributos(Model model) {
-        model.addAttribute("gasto", new Gasto());
+    private void fillAtributos(Model model, Gasto gasto) {
+        model.addAttribute("gasto", gasto != null ? gasto : new Gasto());
         model.addAttribute("gastos", gastoManager.findByUser(userEntryManager.getUsuario()));
     }
 
@@ -46,7 +46,8 @@ public class GastoController{
                           Model model,
                           RedirectAttributes attrs) {
         if (!validate(gasto, attrs, br)) {
-            return goGastos(model, attrs);
+            fillAtributos(model, gasto);
+            return "gastosList";
         }
 
         try{
@@ -60,7 +61,7 @@ public class GastoController{
 
     private String goGastos(Model model, RedirectAttributes attrs) {
         model.addAttribute("gastos", gastoManager.findByUser(userEntryManager.getUsuario()));
-        return "gastosList";
+        return "redirect:/gastosList";
     }
 
 
@@ -70,7 +71,7 @@ public class GastoController{
                          RedirectAttributes attrs) {
         gastoManager.deleteGasto(idGasto);
         attrs.addFlashAttribute("success", msg.getMessage("gastoEliminado"));
-        fillAtributos(model);
+        fillAtributos(model, null);
         return "redirect:/gastosList";
 
     }
@@ -83,7 +84,7 @@ public class GastoController{
 
         if (attached == null) {
             attrs.addFlashAttribute("error", msg.getMessage("noExisteGasto", idGasto));
-            fillAtributos(model);
+            fillAtributos(model, null);
             return "redirect:/gastosList";
         }
         model.addAttribute("gastos", gastoManager.findByUser(userEntryManager.getUsuario()));
@@ -96,9 +97,15 @@ public class GastoController{
 
     @PostMapping("/gastos/actualizar")
     public String actualizar(@Valid @ModelAttribute("gasto") Gasto gasto,
-                         Model model,
-                         BindingResult br,
-                         RedirectAttributes attrs) {
+                             BindingResult br,
+                             Model model,
+                             RedirectAttributes attrs) {
+        if (br.hasErrors()) {
+            model.addAttribute("editMode", true);
+            fillAtributos(model, gasto);
+            attrs.addFlashAttribute("error", msg.getMessage("erroresForm"));
+            return "gastosList";
+        }
         if (!validate(gasto, attrs, br)) {
             return goGastos(model, attrs);
         }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layout :: layout}">
 
 <head>
@@ -12,7 +12,10 @@
 <body>
 <section layout:fragment="content">
   <h1 th:text="#{registroGasto}"></h1>
-  <form   th:action="${editMode} ? @{/gastos/actualizar} : @{/gastos}" th:object="${gasto}" method="post">
+  <form th:action="${editMode} ? @{/gastos/actualizar} : @{/gastos}" th:object="${gasto}"
+        sec:authorize="isAuthenticated()" method="post">
+    <!-- CSRF token -->
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <input type="hidden" th:value="${gasto.id}"  class="form-control"/>
 
     <div class="mb-3">
