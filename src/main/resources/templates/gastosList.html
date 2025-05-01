@@ -19,14 +19,14 @@
     <input type="hidden" th:value="${gasto.id}"  class="form-control"/>
 
     <div class="mb-3">
-      <label for="tipoGasto" class="form-label" th:text="#{tipoGasto}"></label>
+      <label for="concepto" class="form-label" th:text="#{concepto}"></label>
       <input type="text"
-             id="tipoGasto"
-             th:field="*{tipoGasto}"
+             id="concepto"
+             th:field="*{concepto}"
              class="form-control"
-             th:classappend="${#fields.hasErrors('tipoGasto')}? ' is-invalid'"/>
-      <div class="invalid-feedback" th:if="${#fields.hasErrors('tipoGasto')}"
-           th:text="#{tipoGastoNoAceptado}">
+             th:classappend="${#fields.hasErrors('concepto')}? ' is-invalid'"/>
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('concepto')}"
+           th:text="#{conceptoNoAceptado}">
       </div>
     </div>
 
@@ -51,12 +51,13 @@
 
   <hr/>
 
-  <h2>Lista de gastos</h2>
+  <h2 th:text="#{listaGastos}"/>
   <table id="tablaGastos" class="table table-striped">
     <thead>
     <tr>
-      <th>Tipo de gasto</th>
-      <th>Importe</th>
+      <th/>
+      <th th:text="#{concepto}"/>
+      <th th:text="#{importe}"/>
     </tr>
     </thead>
     <tbody>
@@ -81,7 +82,7 @@
           </button>
         </form>
       </td>
-      <td th:text="${g.tipoGasto}"></td>
+      <td th:text="${g.concepto}"></td>
       <td th:insert="~{fragments/number :: fmt(${g.importe})}"></td>
     </tr>
     </tbody>

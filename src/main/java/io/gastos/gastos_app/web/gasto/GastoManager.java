@@ -54,7 +54,7 @@ public class GastoManager {
             throw new NoPuedoActualizarGastoException("gastoSelecNoValido");
         }
 
-        original.setTipoGasto(nuevo.getTipoGasto());
+        original.setConcepto(nuevo.getConcepto());
         original.setImporte(nuevo.getImporte());
         return original;
     }

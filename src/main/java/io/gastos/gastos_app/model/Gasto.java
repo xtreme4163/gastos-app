@@ -16,9 +16,10 @@ public class Gasto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="tipo_gasto")
-    @NotBlank(message = "El tipo de gasto es obligatorio")
-    private String tipoGasto;
+    @Column(name = "concepto", nullable = false)
+    @NotBlank(message = "El concepto del gasto es obligatorio")
+    @NotNull(message = "El concepto es obligatorio")
+    private String concepto;
 
     @Column(name="importe")
     @NotNull(message = "El importe es obligatorio")
@@ -36,11 +37,12 @@ public class Gasto {
         return id;
     }
 
-    public String getTipoGasto() {
-        return tipoGasto;
+    public String getConcepto() {
+        return concepto;
     }
-    public void setTipoGasto(String tipoGasto) {
-        this.tipoGasto = tipoGasto;
+
+    public void setConcepto(String concepto) {
+        this.concepto = concepto;
     }
 
     public BigDecimal getImporte() {
@@ -62,7 +64,7 @@ public class Gasto {
     public String toString() {
         return "Gasto{" +
                 "id=" + id +
-                ", tipoGasto='" + tipoGasto + '\'' +
+                ", tipoGasto='" + concepto + '\'' +
                 ", importe=" + importe +
                 '}';
     }
@@ -71,11 +73,11 @@ public class Gasto {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Gasto gasto = (Gasto) o;
-        return Objects.equals(id, gasto.id) && Objects.equals(tipoGasto, gasto.tipoGasto) && Objects.equals(importe, gasto.importe);
+        return Objects.equals(id, gasto.id) && Objects.equals(concepto, gasto.concepto) && Objects.equals(importe, gasto.importe);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, tipoGasto, importe);
+        return Objects.hash(id, concepto, importe);
     }
 }

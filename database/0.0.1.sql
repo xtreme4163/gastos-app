@@ -4,8 +4,8 @@ BEGIN;
 CREATE TABLE IF NOT EXISTS gasto (
   id BIGSERIAL PRIMARY KEY,
   id_usuario BIGINT NOT null,
-  tipo_gasto      VARCHAR(255),
-  importe   NUMERIC(19,2));
+  concepto      VARCHAR(255) NOT NULL,
+  importe   NUMERIC(19,2) NOT NULL);
 
 ALTER TABLE gasto
 ADD CONSTRAINT fk_gasto_usuario

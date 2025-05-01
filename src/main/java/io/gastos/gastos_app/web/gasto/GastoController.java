@@ -120,8 +120,8 @@ public class GastoController{
     }
 
     private boolean validate(Gasto gasto,  RedirectAttributes attrs,  BindingResult br){
-        if(gasto.getTipoGasto() == null ||
-                (gasto.getTipoGasto() != null && gasto.getTipoGasto().isBlank())){
+        if (gasto.getConcepto() == null ||
+                (gasto.getConcepto() != null && gasto.getConcepto().isBlank())) {
             attrs.addFlashAttribute("error", msg.getMessage("errorGuardarGasto"));
             return false;
         }
