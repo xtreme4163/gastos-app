@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title layout:fragment="title" th:text="#{consultaUsuarios}"></title>
+</head>
+
+<body>
+<section layout:fragment="content">
+    <h2 th:text="#{consultaUsuarios}"></h2>
+
+    <!-- Filtro (GET: la URL refleja el filtro aplicado) -->
+    <form th:action="@{/usuarios/consulta}" th:object="${filtro}" method="get" class="row g-3 align-items-end mb-4">
+        <div class="col-md-5">
+            <label for="username" class="form-label" th:text="#{usuario}"></label>
+            <input type="text" th:field="*{username}" class="form-control"/>
+        </div>
+
+        <div class="col-md-4">
+            <label for="tipoUsuario" class="form-label" th:text="#{tipoUsuario}"></label>
+            <select th:field="*{tipoUsuario}" class="form-select">
+                <option value="" th:text="#{todos}"></option>
+                <option th:each="t : ${tipos}"
+                        th:value="${t}" th:text="${t}"></option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search me-1"></i><span th:text="#{filtrar}"></span>
+            </button>
+            <a th:href="@{/usuarios/consulta}" class="btn btn-secondary ms-2" th:text="#{limpiar}"></a>
+        </div>
+    </form>
+
+    <table id="tablaUsuarios" class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th th:text="#{usuario}"></th>
+                <th th:text="#{tipoUsuario}"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="u : ${usuarios}">
+                <!-- BORRAR: POST /usuarios/consulta/borrar, pide confirmación antes -->
+                <td>
+                    <form th:action="@{/usuarios/consulta/borrar}" method="post"
+                          style="display:inline"
+                          th:data-confirm="#{confirmBorrarUsuario(${u.username})}"
+                          onsubmit="return confirm(this.dataset.confirm);">
+                        <input type="hidden" name="id" th:value="${u.id}" />
+                        <button type="submit" class="btn btn-sm btn-outline-danger" th:title="#{borrar}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                </td>
+                <td th:text="${u.username}"></td>
+                <td th:text="${u.tipoUsuario}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(usuarios)}">
+                <td colspan="2" class="text-center text-muted" th:text="#{sinResultados}"></td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+</body>
+</html>
