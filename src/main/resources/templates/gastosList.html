@@ -78,7 +78,7 @@
         <form th:action="@{/gastos/editar}" method="post"
               style="display:inline">
           <input type="hidden" name="id" th:value="${g.id}" />
-          <button type="submit" class="btn btn-sm btn-outline-primary" title="Editar">
+          <button type="submit" class="btn btn-sm btn-outline-primary" th:title="#{editar}">
             <i class="fas fa-pencil-alt"></i>
           </button>
         </form>
@@ -87,7 +87,7 @@
               style="display:inline"
               onsubmit="return confirm('¿Seguro que quieres borrar este gasto?');">
           <input type="hidden" name="id" th:value="${g.id}" />
-          <button type="submit" class="btn btn-sm btn-outline-danger" title="Borrar">
+          <button type="submit" class="btn btn-sm btn-outline-danger" th:title="#{borrar}">
             <i class="fas fa-trash"></i>
           </button>
         </form>

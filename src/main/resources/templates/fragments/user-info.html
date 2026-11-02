@@ -23,7 +23,7 @@
             <input type="hidden" th:name="${_csrf.parameterName}"
                    th:value="${_csrf.token}"/>
             <button type="submit" class="dropdown-item">
-              <i class="fas fa-sign-out-alt me-2"></i>Salir
+              <i class="fas fa-sign-out-alt me-2"></i><span th:text="#{cerrarSesion}"></span>
             </button>
           </form>
         </li>
