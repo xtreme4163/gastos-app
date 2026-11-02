@@ -1,5 +1,7 @@
 package io.gastos.gastos_app.config;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -24,16 +26,35 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addFormatterForFieldType(BigDecimal.class, milesYDecimales);
     }
 
+    private static final Locale ESPANOL = new Locale("es");
+    private static final Locale INGLES = Locale.ENGLISH;
+
     @Bean
     public LocaleResolver localeResolver() {
-        // Sin defaultLocale: si no hay idioma en sesión, usa el Accept-Language del navegador
-        return new SessionLocaleResolver();
+        SessionLocaleResolver resolver = new SessionLocaleResolver() {
+            // Locale elegido por el usuario en el selector (se guarda en sesión)
+            @Override
+            public void setLocale(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+                boolean hayLocaleElegido = locale != null;
+                super.setLocale(request, response, hayLocaleElegido ? normalizarLocale(locale) : null);
+            }
+        };
+        // Sin nada en sesión: idioma del navegador (Accept-Language)
+        resolver.setDefaultLocaleFunction(request -> normalizarLocale(request.getLocale()));
+        return resolver;
+    }
+
+    /** Solo soportamos español e inglés: cualquier otro idioma pasa a inglés. */
+    private static Locale normalizarLocale(Locale locale) {
+        boolean esEspanol = locale != null && ESPANOL.getLanguage().equals(locale.getLanguage());
+        return esEspanol ? ESPANOL : INGLES;
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-        lci.setParamName("lang");
-        registry.addInterceptor(lci);
+        LocaleChangeInterceptor cambioIdioma = new LocaleChangeInterceptor();
+        cambioIdioma.setParamName("lang");
+        cambioIdioma.setIgnoreInvalidLocale(true);
+        registry.addInterceptor(cambioIdioma);
     }
 }

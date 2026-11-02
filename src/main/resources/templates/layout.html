@@ -29,6 +29,26 @@
             </a>
         </li>
 
+        <!-- Selector de idioma -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center"
+               href="#" role="button" data-bs-toggle="dropdown">
+                <i class="fas fa-globe me-1"></i>
+                <span th:text="${#strings.toUpperCase(#locale.language)}"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" th:classappend="${#locale.language == 'es'} ? 'active'" href="?lang=es">
+                        <img th:src="@{/img/flags/es.svg}" alt="" class="me-2 border" style="width:21px; height:14px;">Español
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" th:classappend="${#locale.language == 'en'} ? 'active'" href="?lang=en">
+                        <img th:src="@{/img/flags/gb.svg}" alt="" class="me-2 border" style="width:21px; height:14px;">English
+                    </a>
+                </li>
+            </ul>
+        </li>
         <!-- info usuario -->
         <li th:insert="~{fragments/user-info :: userInfo}"></li>
     </ul>
