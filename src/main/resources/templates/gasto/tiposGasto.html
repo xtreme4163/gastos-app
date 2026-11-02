@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout :: layout}">
+
+<head>
+    <title layout:fragment="title" th:text="#{tiposGasto}"></title>
+</head>
+
+<body>
+<section layout:fragment="content">
+    <h1 th:text="#{nuevoTipoGasto}"></h1>
+    <form th:action="@{/tiposGasto}" th:object="${tipoGasto}" method="post" class="w-50">
+        <div class="mb-3">
+            <label for="nombre" class="form-label" th:text="#{nombre}"></label>
+            <input type="text" id="nombre" th:field="*{nombre}" class="form-control" required/>
+        </div>
+        <button type="submit" class="btn btn-primary" th:text="#{guardar}"></button>
+    </form>
+
+    <hr/>
+
+    <h2 th:text="#{tiposGasto}"/>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th/>
+            <th th:text="#{nombre}"/>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(tiposGasto)}">
+            <td colspan="2" th:text="#{sinResultados}"></td>
+        </tr>
+        <tr th:each="t : ${tiposGasto}">
+            <td>
+                <form th:action="@{/tiposGasto/borrar}" method="post" style="display:inline"
+                      th:data-confirm="#{confirmBorrarTipoGasto(${t.nombre})}"
+                      onsubmit="return confirm(this.dataset.confirm);">
+                    <input type="hidden" name="id" th:value="${t.id}"/>
+                    <button type="submit" class="btn btn-sm btn-outline-danger" th:title="#{borrar}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+            </td>
+            <td th:text="${t.nombre}"></td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+</body>
+</html>

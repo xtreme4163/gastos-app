@@ -43,6 +43,14 @@
     </div>
 
     <div class="mb-3">
+      <label for="tipoGasto" class="form-label" th:text="#{tipoGasto}"></label>
+      <select id="tipoGasto" th:field="*{tipoGasto}" class="form-control">
+        <option value="" th:text="#{sinTipoGasto}"></option>
+        <option th:each="t : ${tiposGasto}" th:value="${t.id}" th:text="${t.nombre}"></option>
+      </select>
+    </div>
+
+    <div class="mb-3">
       <label for="fecha" class="form-label" th:text="#{fecha}"></label>
       <input type="date"
              id="fecha"
@@ -66,6 +74,7 @@
     <tr>
       <th/>
       <th th:text="#{concepto}"/>
+      <th th:text="#{tipoGasto}"/>
       <th th:text="#{importe}"/>
       <th th:text="#{fecha}"/>
     </tr>
@@ -93,6 +102,7 @@
         </form>
       </td>
       <td th:text="${g.concepto}"></td>
+      <td th:text="${g.tipoGasto?.nombre}"></td>
       <td th:insert="~{fragments/number :: fmt(${g.importe})}"></td>
       <td th:insert="~{fragments/fechas :: fmt(${g.fechaGasto})}"></td>
     </tr>

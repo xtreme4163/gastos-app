@@ -1,5 +1,6 @@
 package io.gastos.gastos_app.config;
 
+import io.gastos.gastos_app.web.tipogasto.TipoGastoFormatter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
@@ -18,12 +19,19 @@ import java.util.Locale;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    private final TipoGastoFormatter tipoGastoFormatter;
+
+    public WebConfig(TipoGastoFormatter tipoGastoFormatter) {
+        this.tipoGastoFormatter = tipoGastoFormatter;
+    }
     @Override
     public void addFormatters(FormatterRegistry registry) {
         // patrón con agrupación de miles y siempre dos decimales:
         NumberStyleFormatter milesYDecimales = new NumberStyleFormatter("#,##0.00");
         // lo aplicamos a todos los BigDecimal:
         registry.addFormatterForFieldType(BigDecimal.class, milesYDecimales);
+        // select de tipo de gasto: id <-> TipoGasto
+        registry.addFormatter(tipoGastoFormatter);
     }
 
     private static final Locale ESPANOL = new Locale("es");

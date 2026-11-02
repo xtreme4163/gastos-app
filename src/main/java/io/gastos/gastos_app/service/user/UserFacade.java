@@ -1,12 +1,13 @@
 package io.gastos.gastos_app.service.user;
 
-import io.gastos.gastos_app.model.Gasto;
-import io.gastos.gastos_app.model.user.TipoUsuario;
+import io.gastos.gastos_app.model.TipoGasto;
+import io.gastos.gastos_app.model.gasto.Gasto;
 import io.gastos.gastos_app.model.user.UserEntry;
 import io.gastos.gastos_app.model.user.UserEntry_;
 import io.gastos.gastos_app.model.util.consultauser.FiltroConsultaUsuario;
 import io.gastos.gastos_app.service.GastosCrudFacade;
 import io.gastos.gastos_app.service.gasto.GastoFacade;
+import io.gastos.gastos_app.service.tipogasto.TipoGastoFacade;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -26,10 +27,13 @@ public class UserFacade {
 
     private final GastosCrudFacade gastosCrudFacade;
     private final GastoFacade gastoFacade;
+    private final TipoGastoFacade tipoGastoFacade;
 
-    public UserFacade(GastosCrudFacade f, GastoFacade gastoFacade){
+
+    public UserFacade(GastosCrudFacade f, GastoFacade gastoFacade, TipoGastoFacade tipoGastoFacade){
         gastosCrudFacade=f;
         this.gastoFacade = gastoFacade;
+        this.tipoGastoFacade = tipoGastoFacade;
     }
 
     public UserEntry findByPassAndUsername(String pass, String username){
@@ -131,6 +135,10 @@ public class UserFacade {
         }
         for (Gasto gasto : gastoFacade.findByUser(usuario.get())) {
             gastoFacade.deleteGasto(gasto);
+        }
+
+        for (TipoGasto tipoGasto : tipoGastoFacade.findByUser(usuario.get())) {
+            tipoGastoFacade.delete(tipoGasto);
         }
         gastosCrudFacade.delete(usuario.get());
         return true;

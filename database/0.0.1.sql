@@ -24,5 +24,29 @@ CREATE INDEX idx_gasto_id_usuario
 
 ALTER TABLE gasto ADD COLUMN fecha date NOT NULL DEFAULT CURRENT_DATE;
 
+--Añadir tipo gasto
+
+--Tabla tipo_gasto (cada usuario configura sus propios tipos)
+CREATE TABLE IF NOT EXISTS tipo_gasto (
+        id BIGSERIAL PRIMARY KEY,
+        id_usuario BIGINT NOT NULL,
+        nombre VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_tipo_gasto_usuario FOREIGN KEY (id_usuario) REFERENCES usuario (id),
+    CONSTRAINT uk_tipo_gasto_usuario_nombre UNIQUE (id_usuario, nombre)
+    );
+CREATE INDEX IF NOT EXISTS idx_tipo_gasto_id_usuario
+    ON tipo_gasto (id_usuario);
+
+--Relación opcional gasto -> tipo_gasto (los gastos existentes quedan sin tipo)
+ALTER TABLE gasto ADD COLUMN IF NOT EXISTS id_tipo_gasto BIGINT NULL;
+
+ALTER TABLE gasto
+    ADD CONSTRAINT fk_gasto_tipo_gasto
+        FOREIGN KEY (id_tipo_gasto) REFERENCES tipo_gasto(id)
+            ON DELETE SET NULL;
+
+CREATE INDEX IF NOT EXISTS idx_gasto_id_tipo_gasto
+    ON gasto (id_tipo_gasto);
+
 
 COMMIT;

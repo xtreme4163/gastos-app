@@ -1,7 +1,7 @@
 package io.gastos.gastos_app.service.gasto;
 
-import io.gastos.gastos_app.model.Gasto;
-import io.gastos.gastos_app.model.Gasto_;
+import io.gastos.gastos_app.model.gasto.Gasto;
+import io.gastos.gastos_app.model.gasto.Gasto_;
 import io.gastos.gastos_app.model.user.UserEntry;
 import io.gastos.gastos_app.model.user.UserEntry_;
 import io.gastos.gastos_app.service.GastosCrudFacade;

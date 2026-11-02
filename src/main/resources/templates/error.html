@@ -10,6 +10,7 @@
 <main class="container my-auto text-center">
   <h1 class="display-4">😓  Error interno (500)</h1>
   <p class="lead">Lo sentimos, ha ocurrido algo inesperado.</p>
+  <p class="text-muted" th:text="|${status} ${error} - ${path}|"></p>
 
   <!-- Botón para volver a la pantalla principal -->
   <form th:action="@{/logout}" method="post" class="d-inline">

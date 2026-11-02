@@ -1,8 +1,9 @@
 package io.gastos.gastos_app.web.gasto;
 
-import io.gastos.gastos_app.model.Gasto;
+import io.gastos.gastos_app.model.gasto.Gasto;
 import io.gastos.gastos_app.model.user.UserEntry;
 import io.gastos.gastos_app.service.gasto.GastoFacade;
+import io.gastos.gastos_app.web.tipogasto.TipoGastoManager;
 import io.gastos.gastos_app.web.user.UserEntryManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,14 +16,17 @@ public class GastoManager {
 
     private final GastoFacade gastoFacade;
     private final UserEntryManager userManager;
+    private final TipoGastoManager tipoGastoManager;
 
     @Autowired
-    public GastoManager(GastoFacade gastoFacade, UserEntryManager userManager) {
+    public GastoManager(GastoFacade gastoFacade, UserEntryManager userManager, TipoGastoManager tipoGastoManager) {
         this.gastoFacade = gastoFacade;
         this.userManager = userManager;
+        this.tipoGastoManager = tipoGastoManager;
     }
 
     public Gasto guardar(Gasto gasto) {
+        validarTipoGasto(gasto);
         if (gasto.getFechaGasto() == null) {
             gasto.setFechaGasto(LocalDate.now());
         }
@@ -55,6 +59,7 @@ public class GastoManager {
         if(original == null || nuevo == null){
             throw new NoPuedoActualizarGastoException("gastoSelecNoValido");
         }
+        validarTipoGasto(nuevo);
 
         original.setConcepto(nuevo.getConcepto());
         original.setImporte(nuevo.getImporte());
@@ -62,5 +67,12 @@ public class GastoManager {
         return original;
     }
 
+    /** Evita asociar un tipo de gasto de otro usuario (id manipulado en el formulario). */
+    private void validarTipoGasto(Gasto gasto) {
+        boolean tipoValido = tipoGastoManager.esValidoParaUsuario(gasto.getTipoGasto());
+        if (!tipoValido) {
+            throw new NoPuedoActualizarGastoException("tipoGastoNoAceptado");
+        }
+    }
 
 }

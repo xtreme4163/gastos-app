@@ -1,5 +1,6 @@
-package io.gastos.gastos_app.model;
+package io.gastos.gastos_app.model.gasto;
 
+import io.gastos.gastos_app.model.TipoGasto;
 import io.gastos.gastos_app.model.user.UserEntry;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -39,6 +40,11 @@ public class Gasto {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate fechaGasto;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_tipo_gasto",
+            foreignKey = @ForeignKey(name = "fk_gasto_tipo_gasto"))
+    private TipoGasto tipoGasto;
+
     public Gasto() {}
 
     public Long getId() {
@@ -74,6 +80,14 @@ public class Gasto {
 
     public void setUsuario(UserEntry usuario) {
         this.usuario = usuario;
+    }
+
+    public TipoGasto getTipoGasto() {
+        return tipoGasto;
+    }
+
+    public void setTipoGasto(TipoGasto tipoGasto) {
+        this.tipoGasto = tipoGasto;
     }
 
     @Override

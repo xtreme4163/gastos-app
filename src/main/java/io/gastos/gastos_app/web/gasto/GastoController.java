@@ -1,7 +1,8 @@
 package io.gastos.gastos_app.web.gasto;
 
-import io.gastos.gastos_app.model.Gasto;
+import io.gastos.gastos_app.model.gasto.Gasto;
 import io.gastos.gastos_app.web.MessageUtil;
+import io.gastos.gastos_app.web.tipogasto.TipoGastoManager;
 import io.gastos.gastos_app.web.user.UserEntryManager;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -18,12 +19,15 @@ public class GastoController{
     private Gasto gastoToEdit;
     private UserEntryManager userEntryManager;
     private final MessageUtil msg;
+    private final TipoGastoManager tipoGastoManager;
 
-    public GastoController(GastoManager manager, UserEntryManager userEntryManager, MessageUtil msg) {
+    public GastoController(GastoManager manager, UserEntryManager userEntryManager, MessageUtil msg,
+                           TipoGastoManager tipoGastoManager) {
         this.gastoManager = manager;
         this.gastoToEdit = null;
         this.userEntryManager = userEntryManager;
         this.msg = msg;
+        this.tipoGastoManager = tipoGastoManager;
     }
 
 
@@ -38,6 +42,8 @@ public class GastoController{
     private void fillAtributos(Model model, Gasto gasto) {
         model.addAttribute("gasto", gasto != null ? gasto : new Gasto());
         model.addAttribute("gastos", gastoManager.findByUser(userEntryManager.getUsuario()));
+        model.addAttribute("tiposGasto", tipoGastoManager.findDelUsuario());
+
     }
 
     @PostMapping("/gastos")
@@ -88,6 +94,7 @@ public class GastoController{
             return "redirect:/gastosList";
         }
         model.addAttribute("gastos", gastoManager.findByUser(userEntryManager.getUsuario()));
+        model.addAttribute("tiposGasto", tipoGastoManager.findDelUsuario());
         model.addAttribute("gasto", attached);
         model.addAttribute("editMode", true);
         this.gastoToEdit = attached;
