@@ -10,7 +10,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/tiposGasto")
-@PreAuthorize("hasRole('USER')")
 public class TipoGastoController {
 
     private final TipoGastoManager tipoGastoManager;

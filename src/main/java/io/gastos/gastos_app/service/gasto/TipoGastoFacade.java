@@ -23,22 +23,22 @@ public class TipoGastoFacade {
         this.gastosCrudFacade = crud;
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('OWNER')")
     public TipoGasto create(TipoGasto tipoGasto) {
         return gastosCrudFacade.create(tipoGasto);
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('OWNER')")
     public void delete(TipoGasto tipoGasto) {
         gastosCrudFacade.delete(gastosCrudFacade.update(tipoGasto));
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('OWNER')")
     public TipoGasto findById(Long id) {
         return gastosCrudFacade.find(TipoGasto.class, id).orElse(null);
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('OWNER')")
     public List<TipoGasto> findByUser(UserEntry user) {
         CriteriaBuilder cb = gastosCrudFacade.getCriteriaBuilder();
         CriteriaQuery<TipoGasto> cq = cb.createQuery(TipoGasto.class);
@@ -51,7 +51,7 @@ public class TipoGastoFacade {
     }
 
     /** Comprueba si el usuario ya tiene un tipo con ese nombre (sin distinguir mayúsculas). */
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('OWNER')")
     public boolean existsByUserAndNombre(UserEntry user, String nombre) {
         CriteriaBuilder cb = gastosCrudFacade.getCriteriaBuilder();
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
