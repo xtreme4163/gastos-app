@@ -36,7 +36,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         UserEntry user = userFacade.findByUsername(username)
                 .orElseThrow();               // debería existir
 
-        userManager.setUsuario(user);                             // ⬅️  guardamos
+        userManager.setUsuario(user);                             // ⬅  guardamos
         super.onAuthenticationSuccess(request, response, authentication);
     }
 }

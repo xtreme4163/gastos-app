@@ -74,7 +74,7 @@ public class GastoFacade {
         return gastosCrudFacade.update(gasto);
     }
 
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasRole('USER') or hasRole('OWNER')")
     public Gasto findById(Long id){
         return gastosCrudFacade.find(Gasto.class, id)
                 .orElse(null);
